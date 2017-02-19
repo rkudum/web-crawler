@@ -55,4 +55,20 @@ public class WebCrawlerControllerTests {
                 .andExpect(jsonPath("$.linkName").value("http://www.google.com/"));
     }
 
+    @Test
+    public void checkWhenTherearenoChildLinks() throws Exception {
+
+        this.mockMvc.perform(get("/webCrawler").param("domain", "http://www.google.com/"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.childLinks").doesNotExist());
+    }
+
+    @Test
+    public void checkWhenTherearenoImages() throws Exception {
+
+        this.mockMvc.perform(get("/webCrawler").param("domain", "http://www.google.com/"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.images").doesNotExist());
+    }
+
 }
