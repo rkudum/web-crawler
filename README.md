@@ -1,5 +1,5 @@
 # web-crawler
-This is a web crawler exposed as REST web service using spring boot and the JSoup Framework.
+This is a web crawler micro service exposed as REST web service using spring boot and the JSoup Framework.
 
 ## Getting Started
 
@@ -13,7 +13,7 @@ Access to port 8080 on the local box where this code will be executed.
 
 ### Installing
 
-Clone the repository from git hub by running the following cmommand
+Clone the repository from git hub by running the following command
 git clone https://github.com/rkudum/web-crawler.git
 
 cd to web-crawler directory
@@ -25,8 +25,8 @@ http://localhost:8080/webCrawler  or
 http://localhost:8080/webCrawler?domain=http://wiprodigital.com
 
 ### Request Parameters
-domain  takes in the domain name which needs to be web crawled.
-By default this value is set http://wiprodigital.com
+url takes a parameter by name domain  this will be the domain name which needs to be web crawled.
+By default this value is set http://wiprodigital.com/
 
 ### Response
 
