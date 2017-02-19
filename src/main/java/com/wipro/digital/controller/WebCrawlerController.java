@@ -24,6 +24,7 @@ public class WebCrawlerController {
 
     public static Set<String> crawledLinks = new HashSet<String>();
     public static String domainName=null;
+    public static String domainNameWithoutBackSlash=null;
     /**
      * This method gets called when the /webCrawler path is invoked.
      * @param domainName
@@ -31,7 +32,8 @@ public class WebCrawlerController {
     @RequestMapping("/webCrawler")
     public WebPage webCrawl(@RequestParam(value="domain", defaultValue="http://wiprodigital.com/") String domainName) throws IOException {
         //WebPage rootWebPage = new WebPage("f:\\test.html");
-        this.domainName = domainName.substring(0,domainName.length()-1);
+        this.domainName = domainName;
+        this.domainNameWithoutBackSlash = domainName.substring(0,domainName.length()-1);
         WebPage rootWebPage = new WebPage(domainName);
         processWebPageInternalCall(rootWebPage);
         return rootWebPage;
@@ -52,7 +54,7 @@ public class WebCrawlerController {
         Elements images = doc.select("img[src]");
         List<WebPage> childLinks = links.parallelStream().filter(link -> link.attr("href").startsWith(domainName)).map(s -> new WebPage(s.attr("href"))).collect(Collectors.toList());
         List<String> imagesList = images.parallelStream().map(s -> s.attr("src")).collect(Collectors.toList());
-        List<String> externalLinks = links.parallelStream().filter(link -> !link.attr("href").startsWith(domainName)).map(s -> s.attr("href")).collect(Collectors.toList());
+        List<String> externalLinks = links.parallelStream().filter(link -> (!link.attr("href").startsWith(domainNameWithoutBackSlash) && !link.attr("href").startsWith("#")) ).map(s -> s.attr("href")).collect(Collectors.toList());
         rootWebPage.setExternalLinks(externalLinks);
         rootWebPage.setImages(imagesList);
         if(!childLinks.isEmpty()) {
